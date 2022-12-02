@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2022.Day01;
+﻿namespace AdventOfCode2022.Day02;
 
 public class Elf
 {
@@ -18,7 +18,7 @@ public class Elf
         try
         {
             FoodItemCalories = Numbers
-                .Split("\n")
+                .Split(Environment.NewLine)
                 .Select(n => int.Parse(n))
                 .ToList();
         }
