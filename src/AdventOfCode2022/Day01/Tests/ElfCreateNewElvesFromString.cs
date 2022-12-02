@@ -12,10 +12,12 @@ public class ElfCreateNewElvesFromString
 
         Assert.Equal(elf.Total, elf2.Total);
     }
+
     [Fact]
     public void ReturnsTwoElves()
     {
-        string input = "1000\n\n2000\n3000";
+        string NL = Environment.NewLine;
+        string input = $"1000{NL}{NL}2000\n3000";
         var elf = new Elf("1000");
         var elf2 = new Elf("2000\n3000");
 
