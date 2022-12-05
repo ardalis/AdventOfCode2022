@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2022.Day02.Tests;
+﻿namespace AdventOfCode2022.Day01.Tests;
 
 public class CalorieSolverServiceGetMaxCaloriesCarriedByTop3Elves
 {
