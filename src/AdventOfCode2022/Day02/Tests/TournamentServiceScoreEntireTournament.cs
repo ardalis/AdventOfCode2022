@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2022.Day03.Tests;
+﻿namespace AdventOfCode2022.Day02.Tests;
 
 public class TournamentServiceScoreEntireTournament
 {

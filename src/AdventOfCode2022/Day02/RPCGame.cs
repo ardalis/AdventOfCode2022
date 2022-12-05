@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2022.Day03
+﻿namespace AdventOfCode2022.Day02
 {
     public class RPCGame
     {
