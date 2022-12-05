@@ -13,4 +13,17 @@
             return totalScore;
         }
     }
+    public class TournamentService2
+    {
+        public int ScoreEntireTournament(string input)
+        {
+            var games = input.Split(Environment.NewLine);
+
+            int totalScore = games
+                                .Select(input => RPCGame2.FromString(input))
+                                .Sum(game => game.Score());
+
+            return totalScore;
+        }
+    }
 }

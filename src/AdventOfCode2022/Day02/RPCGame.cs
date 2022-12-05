@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022.Day02
 {
-    public class RPCGame
+    public class RPCGame : IRPCGame
     {
         public static RPCGame FromString(string gameString)
         {
@@ -19,19 +19,19 @@
 
         public bool? YouWon()
         {
-            if(Opponent == 'A')
+            if (Opponent == 'A')
             {
                 if (You == 'X') return null;
                 if (You == 'Y') return true;
                 return false;
             }
-            if(Opponent == 'B')
+            if (Opponent == 'B')
             {
                 if (You == 'X') return false;
                 if (You == 'Y') return null;
                 return true;
             }
-            if(Opponent == 'C')
+            if (Opponent == 'C')
             {
                 if (You == 'X') return true;
                 if (You == 'Y') return false;

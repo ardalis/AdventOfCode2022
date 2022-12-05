@@ -12,3 +12,15 @@ public class TournamentServiceScoreEntireTournament
         Assert.Equal(14069, result);
     }
 }
+public class TournamentService2ScoreEntireTournament
+{
+    [Fact]
+    public void ReturnsXGivenInput()
+    {
+        var service = new TournamentService2();
+
+        var result = service.ScoreEntireTournament(Input.Data);
+
+        Assert.Equal(12411, result);
+    }
+}
