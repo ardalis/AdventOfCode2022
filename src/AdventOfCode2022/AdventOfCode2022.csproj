@@ -9,6 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Day01\README.md" />
+    <None Remove="Day02\README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Day01\README.md" />
+    <Compile Include="Day02\README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
