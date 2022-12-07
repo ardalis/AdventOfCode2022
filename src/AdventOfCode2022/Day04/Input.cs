@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2022.Day03;
+﻿namespace AdventOfCode2022.Day04;
 
 public static class Input
 {
