@@ -80,23 +80,90 @@
             return $"{colIndex},{rowIndex}";
         }
 
-        public List<Tree> GetNeighbors(int row, int col)
+        public static (int col, int row) GetColRow(string key)
         {
-            var list = new List<Tree>();
-            for (int i = 0; i < this.Height; i++)
-            {
-                if (i == row)
-                {
-                    // add each colindex in the row except self
-                    for(int colIndex = 0; colIndex < Width; colIndex++) 
-                    {
-                        string key = GetKey(colIndex, row);
-                        //if
-                    }
-                }
-                //list.Add(@"{row},{i}")
-            }
-            return list;
+            var values = key.Split(",");
+            return (int.Parse(values.First()),int.Parse(values.Last()));
         }
+
+        public int CountVisibleTrees()
+        {
+            var trees = Trees.Keys.Select(k =>
+            {
+                (var col, var row) = GetColRow(k);
+                return new Tree(col, row, Trees[k]);
+            });
+            return trees.Count(t => IsTreeVisible(t.col, t.row));
+        }
+
+        public int ScenicScore(int col, int row)
+        {
+            Tree tree = new (col, row, Trees[GetKey(col, row)]);
+            return TreesSeenToLeft(tree) *
+                TreesSeenToRight(tree) *
+                TreesSeenAbove(tree) *
+                TreesSeenBelow(tree);
+        }
+
+        public int MaxScenicScore()
+        {
+            int maxScore = 0;
+            for (int col = 0; col < Width; col++)
+            {
+                for (int row = 0; row < Height; row++)
+                {
+                    int score = ScenicScore(col, row);
+                    maxScore = Math.Max(maxScore, score);
+                }
+
+            }
+            return maxScore;
+        }
+
+        public int TreesSeenToLeft(Tree tree)
+        {
+            if (tree.col == 0) return 0;
+            int count = 0;
+            for (int i = tree.col-1; i >= 0; i--)
+            {
+                count++;
+                if (Trees![GetKey(i, tree.row)] >= tree.height) break;
+            }
+            return count;
+        }
+        public int TreesSeenToRight(Tree tree)
+        {
+            if (tree.col == Width) return 0;
+            int count = 0;
+            for (int i = tree.col+1; i < Width; i++)
+            {
+                count++;
+                if (Trees![GetKey(i, tree.row)] >= tree.height) break;
+            }
+            return count;
+        }
+        public int TreesSeenAbove(Tree tree)
+        {
+            if (tree.row == 0) return 0;
+            int count = 0;
+            for (int i = tree.row-1; i >= 0; i--)
+            {
+                count++;
+                if (Trees![GetKey(tree.col, i)] >= tree.height) break;
+            }
+            return count;
+        }
+        public int TreesSeenBelow(Tree tree)
+        {
+            if (tree.row == Height) return 0;
+            int count = 0;
+            for (int i = tree.row+1; i < Height; i++)
+            {
+                count++;
+                if (Trees![GetKey(tree.col, i)] >= tree.height) break;
+            }
+            return count;
+        }
+
     }
 }

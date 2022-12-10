@@ -37,7 +37,6 @@
             var forest = Forest.Parse(Input.SampleData);
 
             Assert.True(forest.IsTreeVisible(col, row));
-
         }
     }
 }
