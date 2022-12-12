@@ -9,7 +9,7 @@ namespace AdventOfCode2022.Day12.Tests
         {
             var map = Map.Parse(Input.SampleData);
 
-            Assert.Equal('S', map[0,0]);
+            Assert.Equal('S', map.Cells[0].Value);
         }
     }
 }
