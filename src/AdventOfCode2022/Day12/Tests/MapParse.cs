@@ -11,5 +11,13 @@ namespace AdventOfCode2022.Day12.Tests
 
             Assert.Equal('S', map.Cells[0].Value);
         }
+
+        [Fact]
+        public void AddingChars()
+        {
+            var letter_a = 'a';
+
+            Assert.Equal('b', letter_a + 1);
+        }
     }
 }
