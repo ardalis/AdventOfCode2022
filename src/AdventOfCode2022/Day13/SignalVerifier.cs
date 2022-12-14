@@ -14,7 +14,7 @@ public class SignalVerifier
         // ^\[(.*)\]$ works for basic cases; fails for [1],[2,3,4]
         // ^\[(\[.*?\]|[,])\]$ works for that but not others
 
-        // regex to match a list that isn't wrapped in []
+        // regex to match a list that isn't wrapped in [], expecially a list of lists
         // https://regex101.com/r/y65oHu/1
         // \[.*?\]|[,]
         // input: [1],[2,3,4]
@@ -22,6 +22,8 @@ public class SignalVerifier
         // 0: [1]
         // 1: ,
         // 2: [2,3,4]
+        // adding a ,5 to the end of input, the 5 is NOT matched.
+        // adding \d to end fixes it: \[.*?\]|[,]|\d
 
         // are both sides lists?
         var leftMatch = outerBracketRegex.Match(left);
