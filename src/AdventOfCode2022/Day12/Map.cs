@@ -2,14 +2,14 @@
 
 namespace AdventOfCode2022.Day012;
 
-public class Cell
+public struct Cell
 {
-    public Cell(int location, char value)
+    public Cell(short location, char value)
     {
         Location = location;
         Value = value;
     }
-    public int Location { get; set; }
+    public short Location { get; set; }
     public char Value { get; set; }
     public bool Visited { get; set; }
     public List<int> PathToGetHere { get; set; } = new List<int>();
@@ -37,7 +37,7 @@ public class Map
         var rows = input.Split(Environment.NewLine);
         map.Height = rows.Length;
         map.Width = rows[0].ToCharArray().Length;
-        int index = 0;
+        short index = 0;
         foreach (var row in rows)
         {
             foreach (char c in row.ToCharArray())
@@ -83,17 +83,14 @@ public class Map
         var reader = channel.Reader;
         var writer = channel.Writer;
 
-        //var q = new Queue<Cell>();
         var start = map.Cells.FirstOrDefault(c => c.Value == 'S');
 
         start.Visited = true;
         writer.TryWrite(start);
-        //q.Enqueue(start);
 
         while (reader.Count > 0)
         {
             reader.TryRead(out Cell cell);
-            //Cell cell = q.Dequeue();
             cell.Visited = true;
             if (cell.Value == 'E') return cell;
 
@@ -105,12 +102,11 @@ public class Map
                     adjacentCell.PathToGetHere = new List<int>(cell.PathToGetHere);
                     adjacentCell!.PathToGetHere.Add(cell.Location);
                     writer.TryWrite(adjacentCell);
-                    //q.Enqueue(adjacentCell);
                 }
             }
 
         }
-        return null;
+        return new Cell(-1, '*');
     }
 
 }
