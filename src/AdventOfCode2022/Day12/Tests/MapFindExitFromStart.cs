@@ -33,7 +33,7 @@ namespace AdventOfCode2022.Day12.Tests
             var result = Map.FindStepsToExitFromStart(map);
 
             //Assert.Equal('E', exitCell.Value);
-            Assert.Equal(31, result);
+            Assert.Equal(380, result);
         }
     }
 }
