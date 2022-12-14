@@ -4,6 +4,13 @@ namespace AdventOfCode2022.Day13;
 
 public class SignalVerifier
 {
+    /// <summary>
+    /// If left and right are numbers, make sure left is smaller
+    /// If left and right are lists, iterate over numbers in list and make sure left is smaller (or has fewer elements)
+    /// If one side is a number but not the other, make the number a list of one number and re-evaluate
+    /// </summary>
+    /// <param name="signalPair"></param>
+    /// <returns></returns>
     public bool Verify(SignalPair signalPair)
     {
         string left = signalPair.Left;
