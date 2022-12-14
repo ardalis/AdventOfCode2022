@@ -69,7 +69,7 @@ namespace AdventOfCode2022.Day12.Tests
             var minPath = shortestPath
                             .Min();
 
-            Assert.Equal(200, minPath);
+            Assert.Equal(375, minPath);
         }
 
     }
