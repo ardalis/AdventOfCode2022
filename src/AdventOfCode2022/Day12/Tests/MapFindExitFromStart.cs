@@ -13,16 +13,16 @@ namespace AdventOfCode2022.Day12.Tests
         }
 
         [Fact]
-        public void FindsExit()
+        public void FindsExitWithSampleData()
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
             var map = Map.Parse(Input.SampleData);
             _output.WriteLine($"Map parse done in {timer.ElapsedMilliseconds}ms");
 
-            var exitCell = Map.FindExitFromStart(map);
+            var result = Map.FindStepsToExitFromStart(map);
 
-            Assert.Equal('E', exitCell.Value);
-            Assert.Equal(31, exitCell.PathToGetHere.Count);
+            //Assert.Equal('E', exitCell.Value);
+            Assert.Equal(31, result);
         }
 
         [Fact]
@@ -30,10 +30,10 @@ namespace AdventOfCode2022.Day12.Tests
         {
             var map = Map.Parse(Input.Data);
 
-            var exitCell = Map.FindExitFromStart(map);
+            var result = Map.FindStepsToExitFromStart(map);
 
-            Assert.Equal('E', exitCell.Value);
-            Assert.Equal(31, exitCell.PathToGetHere.Count);
+            //Assert.Equal('E', exitCell.Value);
+            Assert.Equal(31, result);
         }
     }
 }

@@ -11,8 +11,8 @@ public struct Cell
     }
     public short Location { get; set; }
     public char Value { get; set; }
-    public bool Visited { get; set; }
-    public List<int> PathToGetHere { get; set; } = new List<int>();
+    public int Steps { get; set; }
+    //public List<int> PathToGetHere { get; set; } = new List<int>();
 }
 
 public class Map
@@ -77,36 +77,42 @@ public class Map
         return map;
     }
 
-    public static Cell FindExitFromStart(Map map)
+    public static int FindStepsToExitFromStart(Map map)
     {
-        Channel<Cell> channel = Channel.CreateUnbounded<Cell>();
+        Channel<int> channel = Channel.CreateUnbounded<int>();
         var reader = channel.Reader;
         var writer = channel.Writer;
 
+        var visited = new HashSet<int>();
+
         var start = map.Cells.FirstOrDefault(c => c.Value == 'S');
+        var cells = map.Cells.ToArray();
 
-        start.Visited = true;
-        writer.TryWrite(start);
-
+        writer.TryWrite(start.Location);
+        int steps = 0;
         while (reader.Count > 0)
         {
-            reader.TryRead(out Cell cell);
-            cell.Visited = true;
-            if (cell.Value == 'E') return cell;
-
-            foreach (int adjacentCellIndex in map.AdjacencyList[cell.Location])
+            int size = reader.Count;
+            while (size-- > 0)
             {
-                var adjacentCell = map.Cells[adjacentCellIndex];
-                if (!adjacentCell.Visited)
+                reader.TryRead(out int index);
+                if (visited.Contains(index)) continue;
+                visited.Add(index);
+                if (map.Cells[index].Value == 'E') return steps;
+                foreach (int adjacentCellIndex in map.AdjacencyList[index])
                 {
-                    adjacentCell.PathToGetHere = new List<int>(cell.PathToGetHere);
-                    adjacentCell!.PathToGetHere.Add(cell.Location);
-                    writer.TryWrite(adjacentCell);
+                    //var adjacentCell = map.Cells[adjacentCellIndex];
+                    if (!visited.Contains(adjacentCellIndex))
+                    {
+                        //adjacentCell.PathToGetHere = new List<int>(cell.PathToGetHere);
+                        //adjacentCell!.PathToGetHere.Add(cell.Location);
+                        writer.TryWrite(adjacentCellIndex);
+                    }
                 }
             }
-
+            steps++;
         }
-        return new Cell(-1, '*');
+        return -1;
     }
 
 }
