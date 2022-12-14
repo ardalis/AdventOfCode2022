@@ -68,4 +68,36 @@ public class GridMoveHead
         Assert.Equal(6337, grid.PointsVisited.Count);
     }
 
+    [Fact]
+    public void Visits1PositionsGivenSampleDataRopeSize10()
+    {
+        var grid = new Grid(ropeSize: 10);
+
+        var commands = Input.SampleData.Split(Environment.NewLine);
+        foreach (var command in commands)
+        {
+            char direction = char.Parse(command.Split(" ")[0]);
+            int distance = int.Parse(command.Split(" ")[1]);
+            grid.MoveHead(direction, distance);
+        }
+
+        Assert.Equal(1, grid.PointsVisited.Count);
+    }
+
+    [Fact]
+    public void VisitsCorrectPositionsGivenRealDataRopeSize10()
+    {
+        var grid = new Grid(ropeSize: 10);
+
+        var commands = Input.Data.Split(Environment.NewLine);
+        foreach (var command in commands)
+        {
+            char direction = char.Parse(command.Split(" ")[0]);
+            int distance = int.Parse(command.Split(" ")[1]);
+            grid.MoveHead(direction, distance);
+        }
+
+        Assert.Equal(2455, grid.PointsVisited.Count);
+    }
+
 }

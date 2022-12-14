@@ -10,8 +10,8 @@ public class GridMoveTail
     public void DoesNothingWhenHeadAndTailTogether(int x, int y, int x1, int y1)
     {
         var grid = new Grid();
-        grid.Head = new Point(x, y);
-        grid.Tail = new Point(x1, y1);
+        grid.Rope[0] = new Point(x, y);
+        grid.Rope[1] = new Point(x1, y1);
 
         grid.MoveTail();
 
@@ -30,7 +30,7 @@ public class GridMoveTail
     public void DoesNothingWhenHeadAndTailAdjacent(int tailX, int tailY)
     {
         var grid = new Grid();
-        grid.Tail = new Point(tailX, tailY);
+        grid.Rope[1] = new Point(tailX, tailY);
 
         grid.MoveTail();
 
@@ -51,7 +51,7 @@ public class GridMoveTail
     public void MovesTailTowardHead(int tailX, int tailY, int newX, int newY)
     {
         var grid = new Grid();
-        grid.Tail = new Point(tailX, tailY);
+        grid.Rope[1] = new Point(tailX, tailY);
 
         grid.MoveTail();
 

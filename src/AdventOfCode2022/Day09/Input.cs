@@ -11,6 +11,15 @@ D 1
 L 5
 R 2";
 
+    public static string Part2SampleData = @"R 5
+U 8
+L 8
+D 3
+R 17
+D 10
+L 25
+U 20";
+
     public static string Data = @"U 2
 D 2
 R 2

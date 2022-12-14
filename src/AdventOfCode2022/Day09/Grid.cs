@@ -4,10 +4,17 @@ namespace AdventOfCode2022.Day09;
 
 public class Grid
 {
-    public Grid()
+    public Grid(int ropeSize)
     {
         PointsVisited.Add(Start);
+        RopeSize = ropeSize;
+        for (int i = 0; i < RopeSize; i++)
+        {
+            Rope.Add(new Point(0, 0));
+        }
     }
+
+    public Grid() : this(2) { }
 
     static Grid()
     {
@@ -18,17 +25,23 @@ public class Grid
     }
 
     public Point Start { get; set; } = new Point(0, 0);
-    public Point Head { get; set; } = new Point(0, 0);
-    public Point Tail { get; set; } = new Point(0, 0);
+    public Point Head => Rope[0];
+    public Point Tail => Rope[RopeSize - 1];
+    public List<Point> Rope = new List<Point>();
     public HashSet<Point> PointsVisited { get; } = new HashSet<Point>();
+    public int RopeSize { get; }
 
     private static Dictionary<char, Size> _vectors = new();
     public void MoveHead(char direction, int distance)
     {
         for (int i = 0; i < distance; i++)
         {
-            Head = Head + _vectors[direction];
-            MoveTail();
+            Rope[0] = Rope[0] + _vectors[direction];
+            for (int knotIndex = 1; knotIndex < RopeSize; knotIndex++)
+            {
+                MoveKnot(knotIndex);
+            }
+//            MoveTail();
         }
     }
 
@@ -64,7 +77,52 @@ public class Grid
             if (Head.X - Tail.X < 0) newTailX--;
         }
 
-        Tail = new Point(newTailX, newTailY);
+        Rope[RopeSize-1] = new Point(newTailX, newTailY);
         PointsVisited.Add(new Point(newTailX, newTailY));
     }
+
+    public void MoveKnot(int ropeIndex)
+    {
+        // -2,1 -> -1,0 when H at 0,0
+        var newKnotX = Rope[ropeIndex].X;
+        var newKnotY = Rope[ropeIndex].Y;
+
+        var previousKnot = Rope[ropeIndex - 1];
+        var currentKnot = Rope[ropeIndex];
+
+        if (previousKnot.X - currentKnot.X > 1)
+        {
+            newKnotX++;
+            if (previousKnot.Y - currentKnot.Y > 0) newKnotY++;
+            if (previousKnot.Y - currentKnot.Y < 0) newKnotY--;
+        }
+        else if (previousKnot.X - currentKnot.X < -1)
+        {
+            newKnotX--;
+            if (previousKnot.Y - currentKnot.Y > 0) newKnotY++;
+            if (previousKnot.Y - currentKnot.Y < 0) newKnotY--;
+        }
+        else if (previousKnot.Y - currentKnot.Y > 1)
+        {
+            newKnotY++;
+            if (previousKnot.X - currentKnot.X > 0) newKnotX++;
+            if (previousKnot.X - currentKnot.X < 0) newKnotX--;
+
+        }
+        else if (previousKnot.Y - currentKnot.Y < -1)
+        {
+            newKnotY--;
+            if (previousKnot.X - currentKnot.X > 0) newKnotX++;
+            if (previousKnot.X - currentKnot.X < 0) newKnotX--;
+        }
+
+        Rope[ropeIndex] = new Point(newKnotX, newKnotY);
+        //Tail = new Point(newKnotX, newKnotY);
+
+        if (ropeIndex == RopeSize - 1)
+        {
+            PointsVisited.Add(new Point(newKnotX, newKnotY));
+        }
+    }
+
 }
