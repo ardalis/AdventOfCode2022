@@ -21,8 +21,24 @@ namespace AdventOfCode2022.Day12.Tests
 
             var result = Map.FindStepsToExitFromStart(map);
 
-            //Assert.Equal('E', exitCell.Value);
             Assert.Equal(31, result);
+        }
+
+        [Fact]
+        public void FindsExitFromAnyaHeightWithSampleData()
+        {
+            var map = Map.Parse(Input.SampleData);
+
+            var aIndexes = map.Cells
+                            .Where(m => m.Value == 'a' || m.Value == 'S')
+                            .Select(m => m.Location)
+                            .ToList();
+
+            var shortestPath = aIndexes
+                            .Select(i => Map.FindStepsToExitFromStart(map, i))
+                            .Min();
+
+            Assert.Equal(29, shortestPath);
         }
 
         [Fact]
@@ -35,5 +51,26 @@ namespace AdventOfCode2022.Day12.Tests
             //Assert.Equal('E', exitCell.Value);
             Assert.Equal(380, result);
         }
+
+        [Fact]
+        public void FindsExitFromAnyaHeightWithRealData()
+        {
+            var map = Map.Parse(Input.Data);
+
+            var aIndexes = map.Cells
+                            .Where(m => m.Value == 'a' || m.Value == 'S')
+                            .Select(m => m.Location)
+                            .ToList(); // 1339 a's and S
+
+            var shortestPath = aIndexes
+                            .Select(i => Map.FindStepsToExitFromStart(map, i))
+                            .ToList();
+
+            var minPath = shortestPath
+                            .Min();
+
+            Assert.Equal(200, minPath);
+        }
+
     }
 }

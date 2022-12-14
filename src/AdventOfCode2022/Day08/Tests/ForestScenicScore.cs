@@ -12,11 +12,11 @@
         }
 
         [Fact]
-        public void Returns8GivenRealInput()
+        public void ReturnsCorrectAnswerGivenRealInput()
         {
             var forest = Forest.Parse(Input.Data);
 
-            Assert.Equal(8, forest.MaxScenicScore());
+            Assert.Equal(368368, forest.MaxScenicScore());
 
         }
     }

@@ -17,6 +17,9 @@ namespace AdventOfCode2022.Day12.Tests
         }
 
         [Theory]
+        [InlineData('S', 'a')]
+        [InlineData('a', 'S')]
+        [InlineData('z', 'E')]
         [InlineData('b', 'a')]
         [InlineData('d', 'b')]
         [InlineData('y', 'n')]

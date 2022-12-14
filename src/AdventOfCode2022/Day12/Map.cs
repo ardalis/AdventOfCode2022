@@ -25,6 +25,7 @@ public class Map
     public static bool CanMoveTo(char fromChar, char toChar)
     {
         if (fromChar == 'S' && toChar == 'a') return true;
+        if (fromChar == 'a' && toChar == 'S') return true;
         if (toChar == 'E' && fromChar != 'z') return false;
 
         if(fromChar >= toChar-1) return true;    
@@ -79,16 +80,20 @@ public class Map
 
     public static int FindStepsToExitFromStart(Map map)
     {
+        var start = map.Cells.FirstOrDefault(c => c.Value == 'S');
+
+        return FindStepsToExitFromStart(map, start.Location);
+    }
+
+    public static int FindStepsToExitFromStart(Map map, short startIndex)
+    {
         Channel<int> channel = Channel.CreateUnbounded<int>();
         var reader = channel.Reader;
         var writer = channel.Writer;
 
         var visited = new HashSet<int>();
 
-        var start = map.Cells.FirstOrDefault(c => c.Value == 'S');
-        var cells = map.Cells.ToArray();
-
-        writer.TryWrite(start.Location);
+        writer.TryWrite(startIndex);
         int steps = 0;
         while (reader.Count > 0)
         {
@@ -101,18 +106,15 @@ public class Map
                 if (map.Cells[index].Value == 'E') return steps;
                 foreach (int adjacentCellIndex in map.AdjacencyList[index])
                 {
-                    //var adjacentCell = map.Cells[adjacentCellIndex];
                     if (!visited.Contains(adjacentCellIndex))
                     {
-                        //adjacentCell.PathToGetHere = new List<int>(cell.PathToGetHere);
-                        //adjacentCell!.PathToGetHere.Add(cell.Location);
                         writer.TryWrite(adjacentCellIndex);
                     }
                 }
             }
             steps++;
         }
-        return -1;
+        return int.MaxValue;
     }
 
 }
