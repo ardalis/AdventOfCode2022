@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2022.Day012;
+﻿using System.Threading.Channels;
+
+namespace AdventOfCode2022.Day012;
 
 public class Cell
 {
@@ -77,15 +79,21 @@ public class Map
 
     public static Cell FindExitFromStart(Map map)
     {
-        var q = new Queue<Cell>();
+        Channel<Cell> channel = Channel.CreateUnbounded<Cell>();
+        var reader = channel.Reader;
+        var writer = channel.Writer;
+
+        //var q = new Queue<Cell>();
         var start = map.Cells.FirstOrDefault(c => c.Value == 'S');
 
         start.Visited = true;
-        q.Enqueue(start);
+        writer.TryWrite(start);
+        //q.Enqueue(start);
 
-        while (q.Count > 0)
+        while (reader.Count > 0)
         {
-            Cell cell = q.Dequeue();
+            reader.TryRead(out Cell cell);
+            //Cell cell = q.Dequeue();
             cell.Visited = true;
             if (cell.Value == 'E') return cell;
 
@@ -96,7 +104,8 @@ public class Map
                 {
                     adjacentCell.PathToGetHere = new List<int>(cell.PathToGetHere);
                     adjacentCell!.PathToGetHere.Add(cell.Location);
-                    q.Enqueue(adjacentCell);
+                    writer.TryWrite(adjacentCell);
+                    //q.Enqueue(adjacentCell);
                 }
             }
 
