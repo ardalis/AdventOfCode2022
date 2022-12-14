@@ -15,4 +15,18 @@ public class SignalVerifierVerify
 
         Assert.True(verifier.Verify(pair));
     }
+
+    [Fact]
+    public void ReturnsTrueGivenSecondSample()
+    {
+        var verifier = new SignalVerifier();
+
+        var pair = new SignalPair()
+        {
+            Left = "[[1],[2,3,4]]",
+            Right = "[[1],4]"
+        };
+
+        Assert.True(verifier.Verify(pair));
+    }
 }

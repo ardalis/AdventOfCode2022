@@ -8,7 +8,20 @@ public class SignalVerifier
     {
         string left = signalPair.Left;
         string right = signalPair.Right;
-        var outerBracketRegex = new Regex(@"^\[(.*)\]$");
+        var outerBracketRegex = new Regex(@"^\[(\[.*?\]|[,])\]$");
+
+        // regex to strip outer brackets
+        // ^\[(.*)\]$ works for basic cases; fails for [1],[2,3,4]
+        // ^\[(\[.*?\]|[,])\]$ works for that but not others
+
+        // regex to match a list that isn't wrapped in []
+        // https://regex101.com/r/y65oHu/1
+        // \[.*?\]|[,]
+        // input: [1],[2,3,4]
+        // matches:
+        // 0: [1]
+        // 1: ,
+        // 2: [2,3,4]
 
         // are both sides lists?
         var leftMatch = outerBracketRegex.Match(left);
@@ -19,6 +32,8 @@ public class SignalVerifier
             // evaluate inner values
             left = leftMatch.Groups[1].Value;
             right = rightMatch.Groups[1].Value;
+
+            return Verify(new SignalPair(left, right));
         }
 
         // if neither side is a list, then we either have an array of numbers or a single number
